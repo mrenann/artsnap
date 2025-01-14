@@ -1,17 +1,24 @@
-import {Text, View} from 'react-native';
+import {Pressable, Text, View} from 'react-native';
 import {ImageCardProps} from './types.ts';
 import React from 'react';
 import {styles} from './styles.ts';
 import FastImage from 'react-native-fast-image';
+import {useNavigation} from '@react-navigation/native';
+import {NavigationProps} from '../../routes/types.ts';
 
 export const ImageCard: React.FC<ImageCardProps> = ({
+  id,
   imageUrl,
   title,
   photographerName,
   category,
 }) => {
+  const navigation = useNavigation<NavigationProps<'Home'>>();
+
   return (
-    <View style={styles.container}>
+    <Pressable
+      onPress={() => navigation.navigate('Details', {id: id})}
+      style={styles.container}>
       <FastImage
         style={styles.image}
         source={{
@@ -35,6 +42,6 @@ export const ImageCard: React.FC<ImageCardProps> = ({
           {category}
         </Text>
       </View>
-    </View>
+    </Pressable>
   );
 };

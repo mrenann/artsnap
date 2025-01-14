@@ -13,10 +13,11 @@ import ImageCard from '../../components/ImageCard';
 import {styles} from './styles.ts';
 import {Image} from '../../types/searchTypes.ts';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {RoutePropsNavigation} from '../../routes/types.ts';
 
 const PAGE_SIZE = 10;
 
-export default function Home() {
+export const Home = ({}: RoutePropsNavigation<'Home'>) => {
   const [query, setQuery] = useState<string>('');
   const [images, setImages] = useState<Image[]>([]);
   const [page, setPage] = useState<number>(1);
@@ -94,7 +95,7 @@ export default function Home() {
         setLoading(false);
       }
     },
-    [query, page, loading, hasMore],
+    [loading, hasMore, query, page, cache],
   );
 
   const loadPopularImages = async () => {
@@ -166,6 +167,7 @@ export default function Home() {
           data={images}
           renderItem={({item}) => (
             <ImageCard
+              id={item.id}
               imageUrl={item.urls.raw}
               title={item.description || 'Sem título'}
               photographerName={item.user.name}
@@ -184,4 +186,4 @@ export default function Home() {
       )}
     </View>
   );
-}
+};
